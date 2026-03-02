@@ -24,4 +24,4 @@ scopes = "write_products"
 redirect_urls = [ "https://diligent-laughter-production.up.railway.app/api/auth" ]
 
 [build]
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = false
