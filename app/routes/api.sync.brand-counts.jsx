@@ -82,12 +82,21 @@ export const action = async ({ request }) => {
     endCursor = data?.data?.products?.pageInfo?.endCursor ?? null;
   }
 
-  await prisma.brandCount.deleteMany();
-  await prisma.brandCount.createMany({
-    data: Array.from(vendorMap.entries()).map(([vendorName, count]) => ({
-      vendorName,
-      count,
-    })),
+  // Upsert each vendor — update count if exists, insert if new
+  await Promise.all(
+    Array.from(vendorMap.entries()).map(([vendorName, count]) =>
+      prisma.brandCount.upsert({
+        where: { vendorName },
+        update: { count },
+        create: { vendorName, count },
+      })
+    )
+  );
+
+  // Delete vendors that no longer exist in Shopify
+  const activeVendors = Array.from(vendorMap.keys());
+  await prisma.brandCount.deleteMany({
+    where: { vendorName: { notIn: activeVendors } },
   });
 
   return new Response(
