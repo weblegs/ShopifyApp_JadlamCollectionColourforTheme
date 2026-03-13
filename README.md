@@ -98,4 +98,4 @@ prisma/
 - **App URL:** `https://diligent-laughter-production.up.railway.app`
 - **Database:** PostgreSQL on Railway
 - **Deploy:** Push to `main` branch on GitHub → Railway auto-deploys
-- **Store:** `racketworlduk.myshopify.com`
+- **Store:** `wljadlamracing.myshopify.com`
